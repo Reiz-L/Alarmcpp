@@ -10,30 +10,33 @@
 #include <stdlib.h>
 #pragma comment(lib,"winmm.lib")
 /*
-ÕâÊÇÎÒÏĞµÄÃ»ÊÂÂÒĞ´µÄ
-ÓĞºÜ¶àµØ·½»¹Ğ´µÄ²»ÊÇºÜºÃ
-ÓÃÓ¢ÓïĞ´´¿Êô×°X
+forkè€…ç•™è¨€ï¼šæˆ‘ä¼šå°½åŠ›å®Œå–„è¿™ä¸ªé¡¹ç›®
+*/
+/*
+è¿™æ˜¯æˆ‘é—²çš„æ²¡äº‹ä¹±å†™çš„
+æœ‰å¾ˆå¤šåœ°æ–¹è¿˜å†™çš„ä¸æ˜¯å¾ˆå¥½
+ç”¨è‹±è¯­å†™çº¯å±è£…X
 by Reiz
 VERSION:1.0
 */
 using namespace std;
 const char _space = ' ';
-string filename;//±£´æµÄÎÄ¼şÃû
-string mpath;//ÌáÊ¾ÒôÂ·¾¶
-int timeh;//Ê±
-int timem;//·Ö
-string atype;//ÄÖÖÓÀàĞÍ
-string msg1;//´ı×ª»»µÄÌáÊ¾ĞÅÏ¢
-wchar_t* msg2;//ÄÖÖÓÌáÊ¾
+string filename;//ä¿å­˜çš„æ–‡ä»¶å
+string mpath;//æç¤ºéŸ³è·¯å¾„
+int timeh;//æ—¶
+int timem;//åˆ†
+string atype;//é—¹é’Ÿç±»å‹
+string msg1;//å¾…è½¬æ¢çš„æç¤ºä¿¡æ¯
+wchar_t* msg2;//é—¹é’Ÿæç¤º
 
 
-void hideCur()//Òş²Ø¹â±ê
+void hideCur()//éšè—å…‰æ ‡
 {
 	CONSOLE_CURSOR_INFO cursor_info = { 1, 0 };
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursor_info);
 }
 
-void showCur()//ÏÔÊ¾¹â±ê
+void showCur()//æ˜¾ç¤ºå…‰æ ‡
 {
 	HANDLE h_GAME = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_CURSOR_INFO cursor_info;
@@ -51,7 +54,7 @@ void SelectAlarm();
 void SaveAlarm();
 void selmenuref();
 
-wchar_t* mwstr;//bgmÂ·¾¶×ª»»wchar_t*ºó±äÁ¿
+wchar_t* mwstr;//bgmè·¯å¾„è½¬æ¢wchar_t*åå˜é‡
 int main()
 {
 	system("color f");
@@ -63,7 +66,7 @@ int main()
 	return 0;
 }
 
-void HomePage()//Ö÷Ò³
+void HomePage()//ä¸»é¡µ
 {
 	hideCur();
 	UseAlarm();
@@ -72,7 +75,7 @@ void HomePage()//Ö÷Ò³
 	char* mp2 = const_cast <char*>(mp1);
 	size_t len = strlen(mp2) + 1;
 	size_t converted = 0;
-	mwstr = (wchar_t*)malloc(len * sizeof(wchar_t));//ÕâÊÇstring=> const char*=> char*=>wchar_t*ÁË
+	mwstr = (wchar_t*)malloc(len * sizeof(wchar_t));//è¿™æ˜¯string=> const char*=> char*=>wchar_t*äº†
 	mbstowcs_s(&converted, mwstr, len, mp2, _TRUNCATE);
 
 	const char* temp = msg1.c_str();
@@ -84,7 +87,7 @@ void HomePage()//Ö÷Ò³
 
 	system("cls");
 	system("color a");
-	char ch;//°´ÏÂµÄ¼ü
+	char ch;//æŒ‰ä¸‹çš„é”®
 	printf("\n\n%35cWelcome to use the Console Alarm\n",_space);
 	printf("%35cWhat are You going to do?\n",_space);
 	//system("pause");
@@ -94,7 +97,7 @@ void HomePage()//Ö÷Ò³
 	printf("\n%35c[E] Exit\n",_space);
 	while (1)
 	{
-		ch = getch();//ÅĞ¶ÏÊäÈë
+		ch = getch();//åˆ¤æ–­è¾“å…¥
 		if (ch == 'c')
 		{
 			printf("Create a Alarm\n");
@@ -119,7 +122,7 @@ void HomePage()//Ö÷Ò³
 	}
 }
 
-void CreateAlarm()//´´½¨ÄÖÖÓ
+void CreateAlarm()//åˆ›å»ºé—¹é’Ÿ
 {
 	char chh;
 	int IsLoop = 1;
@@ -135,13 +138,13 @@ void CreateAlarm()//´´½¨ÄÖÖÓ
 	while (IsLoop)
 	{
 		chh = getch();
-		if (chh == 'm')//ÄÖÖÓµÄBGM
+		if (chh == 'm')//é—¹é’Ÿçš„BGM
 		{
 			IsLoop = 0;
 			system("cls");
 			//char path[100];
 			showCur();
-			printf("Please Type Your WAV music path here(type 'back' can back)\nlike this ¡°d:\\\\\sth2.wav¡±\nType the path:");
+			printf("Please Type Your WAV music path here(type 'back' can back)\nlike this â€œd:\\\\\sth2.wavâ€\nType the path:");
 			
 			cin >> mpath;
 			if (mpath == "")
@@ -171,7 +174,7 @@ void CreateAlarm()//´´½¨ÄÖÖÓ
 			
 			
 		}
-		else if (chh == 't')//ÉèÖÃÄÖÖÓÊ±¼ä
+		else if (chh == 't')//è®¾ç½®é—¹é’Ÿæ—¶é—´
 		{
 			IsLoop = 0;
 			system("cls");
@@ -186,7 +189,7 @@ void CreateAlarm()//´´½¨ÄÖÖÓ
 			Sleep(1000);
 			CreateAlarm();
 		}
-		else if (chh == 's')//ÉèÖÃÄÖÖÓÀàĞÍ
+		else if (chh == 's')//è®¾ç½®é—¹é’Ÿç±»å‹
 		{
 			IsLoop = 0;
 			showCur();
@@ -207,7 +210,7 @@ void CreateAlarm()//´´½¨ÄÖÖÓ
 			}
 			
 		}
-		else if (chh == 'o')//±£´æ
+		else if (chh == 'o')//ä¿å­˜
 		{
 			IsLoop = 0;
 			SaveAlarm();
@@ -216,7 +219,7 @@ void CreateAlarm()//´´½¨ÄÖÖÓ
 			Sleep(1000);
 			HomePage();
 		}
-		else if (chh == 'e')//ÉèÖÃÌáÊ¾ĞÅÏ¢
+		else if (chh == 'e')//è®¾ç½®æç¤ºä¿¡æ¯
 		{
 			showCur();
 			system("cls");
@@ -232,7 +235,7 @@ void CreateAlarm()//´´½¨ÄÖÖÓ
 			CreateAlarm();
 
 		}
-		else if (chh == 'b')//·µ»ØÖ÷Ò³
+		else if (chh == 'b')//è¿”å›ä¸»é¡µ
 		{
 			IsLoop = 0;
 			HomePage();
@@ -241,7 +244,7 @@ void CreateAlarm()//´´½¨ÄÖÖÓ
 	}
 }
 
-void DelAlarm()//É¾³ı
+void DelAlarm()//åˆ é™¤
 {
 	char ch;
 	system("cls");
@@ -268,7 +271,7 @@ void DelAlarm()//É¾³ı
 	}
 }
 
-void SelectAlarm()//Ñ¡ÔñÄÖÖÓµÄ²Ëµ¥
+void SelectAlarm()//é€‰æ‹©é—¹é’Ÿçš„èœå•
 {
 	char ch;
 	system("cls");
@@ -305,10 +308,10 @@ void SelectAlarm()//Ñ¡ÔñÄÖÖÓµÄ²Ëµ¥
 	}
 }
 
-void UseAlarm()//¶ÁÈ¡ÄÖÖÓ
+void UseAlarm()//è¯»å–é—¹é’Ÿ
 {
 	fstream fs;
-	fs.open("1.txt", ios::in);//´ò¿ª1
+	fs.open("1.txt", ios::in);//æ‰“å¼€1
 	if (fs.fail())
 	{
 		ofstream txt("1.txt");
@@ -316,23 +319,23 @@ void UseAlarm()//¶ÁÈ¡ÄÖÖÓ
 	}
 	string th;
 	string tm;
-	getline(fs, mpath);//¶ÁÈ¡ÎÄ¼ş music path line:1
-	getline(fs, atype);// alarm typeÄÖÖÓ¸ñÊ½  line:2
-	getline(fs,th = to_string (timeh));//Ê±¼ä hour  line:3
-	getline(fs,tm = to_string(timem));// Ê±¼ä minutes  line:4
-	timeh = atoi(th.c_str());//string ×ª char*ÔÙ×ª»»int  
+	getline(fs, mpath);//è¯»å–æ–‡ä»¶ music path line:1
+	getline(fs, atype);// alarm typeé—¹é’Ÿæ ¼å¼  line:2
+	getline(fs,th = to_string (timeh));//æ—¶é—´ hour  line:3
+	getline(fs,tm = to_string(timem));// æ—¶é—´ minutes  line:4
+	timeh = atoi(th.c_str());//string è½¬ char*å†è½¬æ¢int  
 	timem = atoi(tm.c_str());
 	
 	fs.close();
 }
 
-void StartA()//¿ªÊ¼²¥·ÅÄÖÖÓµÄBGMºÍµ¯³ö´°¿Ú
+void StartA()//å¼€å§‹æ’­æ”¾é—¹é’Ÿçš„BGMå’Œå¼¹å‡ºçª—å£
 {
-	time_t t;  //ÃëÊ±¼ä
-	tm* local; //±¾µØÊ±¼ä
+	time_t t;  //ç§’æ—¶é—´
+	tm* local; //æœ¬åœ°æ—¶é—´
 	char buf[128] = { 0 };
-	t = time(NULL); //»ñÈ¡Ä¿Ç°ÃëÊ±¼ä
-	local = localtime(&t); //×ªÎª±¾µØÊ±¼ä
+	t = time(NULL); //è·å–ç›®å‰ç§’æ—¶é—´
+	local = localtime(&t); //è½¬ä¸ºæœ¬åœ°æ—¶é—´
 	strftime(buf, 64, "%Y-%m-%d %H:%M:%S", local);
 
 	system("cls&&color a");
@@ -377,7 +380,7 @@ void StartA()//¿ªÊ¼²¥·ÅÄÖÖÓµÄBGMºÍµ¯³ö´°¿Ú
 	}
 }
 
-void SaveAlarm()//±£´æÄÖÖÓ
+void SaveAlarm()//ä¿å­˜é—¹é’Ÿ
 {
 	fstream fst;
 	fst.open("1.txt",ios::out);
@@ -385,11 +388,11 @@ void SaveAlarm()//±£´æÄÖÖÓ
 	system("cls");
 	if (!fst)
 	{
-		printf("ÎÄ¼ş´ò¿ªÊ§°Ü£¡\n");
+		printf("æ–‡ä»¶æ‰“å¼€å¤±è´¥ï¼\n");
 	}
 	else
 	{
-		//line:1 mpath±äÁ¿±£´æ
+		//line:1 mpathå˜é‡ä¿å­˜
 		fst << mpath << endl;
 		//line:2 atype
 		fst << atype << endl;
@@ -401,7 +404,7 @@ void SaveAlarm()//±£´æÄÖÖÓ
 
 }
 
-void selmenuref()//Ñ¡ÔñÄÖÖÓÑ¡ÏîÅĞ¶Ï
+void selmenuref()//é€‰æ‹©é—¹é’Ÿé€‰é¡¹åˆ¤æ–­
 {
 	showCur();
 	int input = 1;
